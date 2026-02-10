@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { GalleryCard } from '@/components/GalleryCard';
 import { CursorTrace } from '@/components/CursorTrace';
 import { LoveQuiz } from '@/components/LoveQuiz';
+import { ZodiacModal } from '@/components/ZodiacModal';
 
 const Scene = dynamic(() => import('@/components/Scene'), {
   ssr: false,
@@ -15,11 +16,12 @@ const Scene = dynamic(() => import('@/components/Scene'), {
 });
 
 export default function Home() {
-  const [burst, setBurst] = React.useState(0);
-  const [isPlaying, setIsPlaying] = React.useState(false);
-  const [showLetter, setShowLetter] = React.useState(false);
-  const [showQuiz, setShowQuiz] = React.useState(false);
-  const [timeLeft, setTimeLeft] = React.useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [burst, setBurst] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [showLetter, setShowLetter] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [showZodiac, setShowZodiac] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const playerRef = React.useRef<any>(null);
 
   const mouseX = useMotionValue(0);
@@ -225,6 +227,16 @@ export default function Home() {
               <HeartIcon className="w-4 h-4 md:w-6 md:h-6 text-accent fill-accent" />
               Love Quiz
             </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowZodiac(true)}
+              className="w-full md:w-auto px-6 md:px-10 py-3 md:py-5 glass-card text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer border-blue-400/20 text-sm md:text-base border-t-2 border-l-2 border-white/20 shadow-[0_0_15px_rgba(30,58,138,0.2)] bg-blue-900/10"
+            >
+              <Sparkles className="w-4 h-4 md:w-6 md:h-6 text-blue-300" />
+              Zodiac Destiny
+            </motion.button>
           </div>
         </motion.div>
       </div>
@@ -313,6 +325,9 @@ export default function Home() {
 
       {/* Love Quiz Modal */}
       {showQuiz && <LoveQuiz onClose={() => setShowQuiz(false)} />}
+
+      {/* Zodiac Modal */}
+      {showZodiac && <ZodiacModal onClose={() => setShowZodiac(false)} />}
 
       {/* Music Visualizer Placeholder Line */}
       <div className="absolute bottom-16 md:bottom-20 inset-x-0 z-20 flex justify-center gap-1">
