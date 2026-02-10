@@ -138,18 +138,18 @@ export default function Home() {
       <Scene burst={burst} />
 
       {/* Top Left: Logo/Header */}
-      <div className="absolute top-6 left-6 md:top-10 md:left-10 z-20 flex items-center gap-2 pointer-events-none">
-        <HeartIcon className="text-primary w-5 h-5 md:w-6 md:h-6" />
-        <span className="text-white font-bold tracking-tighter text-sm md:text-lg">VALENTINE'26</span>
+      <div className="absolute top-4 left-4 md:top-10 md:left-10 z-[60] flex items-center gap-2 pointer-events-none transition-all duration-300">
+        <HeartIcon className="text-primary w-4 h-4 md:w-6 md:h-6" />
+        <span className="text-white font-bold tracking-tighter text-[10px] md:text-lg opacity-60 md:opacity-100">VALENTINE'26</span>
       </div>
 
       {/* Countdown UI */}
       <div className="absolute top-16 md:top-10 inset-x-0 z-20 flex justify-center px-4 pointer-events-none">
-        <div className="glass-card px-3 md:px-8 py-2 md:py-3 flex gap-3 md:gap-8 items-center border-white/5 bg-black/20 backdrop-blur-md rounded-full">
+        <div className="glass-card px-3 md:px-8 py-1.5 md:py-3 flex gap-2 md:gap-8 items-center border-white/5 bg-black/40 backdrop-blur-lg rounded-full shadow-[0_0_20px_rgba(0,0,0,0.5)]">
           {Object.entries(timeLeft).map(([label, value]) => (
-            <div key={label} className="flex flex-col items-center">
-              <span className="text-white font-bold text-base md:text-xl leading-none">{String(value).padStart(2, '0')}</span>
-              <span className="text-[8px] md:text-[10px] text-accent uppercase tracking-widest">{label}</span>
+            <div key={label} className="flex flex-col items-center min-w-[35px] md:min-w-[60px]">
+              <span className="text-white font-black text-xs md:text-xl leading-none tabular-nums">{String(value).padStart(2, '0')}</span>
+              <span className="text-[6px] md:text-[10px] text-accent uppercase tracking-widest mt-0.5">{label.charAt(0)}</span>
             </div>
           ))}
         </div>
@@ -181,7 +181,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-9xl font-black mb-4 md:mb-6 bg-gradient-to-br from-white via-primary to-accent bg-clip-text text-transparent tracking-tighter leading-tight px-2">
+          <h1 className="text-4xl sm:text-6xl md:text-9xl font-black mb-4 md:mb-6 bg-gradient-to-br from-white via-primary to-accent bg-clip-text text-transparent tracking-tighter leading-[1.1] md:leading-tight px-2">
             Infinite<br className="md:hidden" /> Desire
           </h1>
 
@@ -194,7 +194,7 @@ export default function Home() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setBurst(Date.now())}
-              className="w-full md:w-auto group relative px-6 md:px-10 py-3 md:py-5 bg-primary text-white font-black rounded-full shadow-[0_0_30px_rgba(255,77,109,0.4)] hover:shadow-[0_0_60px_rgba(255,77,109,0.8)] transition-all duration-300 cursor-pointer overflow-hidden uppercase tracking-tighter text-sm md:text-base"
+              className="w-full md:w-auto group relative px-8 md:px-10 py-3.5 md:py-5 bg-primary text-white font-black rounded-full shadow-[0_0_30px_rgba(255,77,109,0.4)] hover:shadow-[0_0_60px_rgba(255,77,109,0.8)] transition-all duration-300 cursor-pointer overflow-hidden uppercase tracking-tighter text-sm md:text-base"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Launch Love <Sparkles className="w-4 h-4 md:w-5 md:h-5 group-hover:rotate-12 transition-transform" />
@@ -236,7 +236,7 @@ export default function Home() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowZodiac(true)}
-              className="w-full md:w-auto px-6 md:px-10 py-3 md:py-5 glass-card text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer border-blue-400/20 text-sm md:text-base border-t-2 border-l-2 border-white/20 shadow-[0_0_15px_rgba(30,58,138,0.2)] bg-blue-900/10"
+              className="w-full md:w-auto px-8 md:px-10 py-3.5 md:py-5 glass-card text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer border-blue-400/20 text-sm md:text-base border-t-2 border-l-2 border-white/20 shadow-[0_0_15px_rgba(30,58,138,0.2)] bg-blue-900/10"
             >
               <Sparkles className="w-4 h-4 md:w-6 md:h-6 text-blue-300" />
               Zodiac Destiny

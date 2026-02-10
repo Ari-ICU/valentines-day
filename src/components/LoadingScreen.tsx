@@ -114,10 +114,10 @@ export function LoadingScreen() {
                     <motion.div
                         animate={canEnter ? { opacity: [0.2, 0.5, 0.2] } : {}}
                         transition={{ duration: 3, repeat: Infinity }}
-                        className="absolute bottom-12 flex flex-col items-center gap-4"
+                        className="absolute bottom-10 flex flex-col items-center gap-3"
                     >
-                        <div className="w-12 h-[1px] bg-white/10" />
-                        <span className="text-[9px] text-white/20 tracking-[0.5em] uppercase font-bold">Valentine'26</span>
+                        <div className="w-8 h-[1px] bg-white/10" />
+                        <span className="text-[8px] text-white/20 tracking-[0.4em] uppercase font-bold">Valentine'26</span>
                     </motion.div>
                 </motion.div>
             )}

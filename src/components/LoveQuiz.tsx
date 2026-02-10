@@ -42,8 +42,17 @@ export function LoveQuiz({ onClose }: { onClose: () => void }) {
     const moveNoButton = () => {
         if (containerRef.current) {
             const containerRect = containerRef.current.getBoundingClientRect();
-            const x = Math.random() * (containerRect.width - 200) - (containerRect.width / 2 - 100);
-            const y = Math.random() * (containerRect.height - 200) - (containerRect.height / 2 - 100);
+            const padding = 20;
+            const btnWidth = 150;
+            const btnHeight = 50;
+
+            // Constrain movement within the container
+            const maxX = containerRect.width / 2 - btnWidth / 2 - padding;
+            const maxY = containerRect.height / 2 - btnHeight / 2 - padding;
+
+            const x = (Math.random() - 0.5) * 2 * maxX;
+            const y = (Math.random() - 0.5) * 2 * maxY;
+
             setNoBtnPosition({ x, y });
         }
     };

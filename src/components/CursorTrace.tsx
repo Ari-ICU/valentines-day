@@ -17,6 +17,10 @@ export const CursorTrace = () => {
     const timeoutRef = useRef<NodeJS.Timeout>(null);
 
     useEffect(() => {
+        // Disable on touch devices
+        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        if (isTouch) return;
+
         setMounted(true);
 
         const handleMouseMove = (e: MouseEvent) => {

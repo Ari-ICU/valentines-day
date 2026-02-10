@@ -1,7 +1,7 @@
 'use client';
 
-import React, { Suspense, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import React, { Suspense, useRef, useEffect } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Stars, Float, Environment, Sparkles } from '@react-three/drei';
 import { Heart, FloatingHearts, HeartTrail, ConfettiHearts, FallingPetals, FloatingImage, PlanetarySystem, ZodiacSigns } from './Heart';
 import * as THREE from 'three';
@@ -23,10 +23,33 @@ function Rig({ children }: { children: React.ReactNode }) {
     return <group ref={group}>{children}</group>;
 }
 
+function ResponsiveCamera() {
+    const { camera, size } = useThree();
+
+    useEffect(() => {
+        const isMobile = size.width < 768;
+        const aspect = size.width / size.height;
+
+        if (isMobile) {
+            // Further back and wider FOV for mobile
+            camera.position.z = 12;
+            (camera as any).fov = aspect < 1 ? 65 : 55;
+        } else {
+            camera.position.z = 8;
+            (camera as any).fov = 50;
+        }
+
+        camera.updateProjectionMatrix();
+    }, [size]);
+
+    return null;
+}
+
 export default function Scene({ burst = 0 }: { burst?: number }) {
     return (
         <div className="fixed inset-0 z-0">
             <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
+                <ResponsiveCamera />
                 <color attach="background" args={['#0f050a']} />
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} intensity={1} />
