@@ -9,10 +9,11 @@ import { GalleryCard } from '@/components/GalleryCard';
 import { CursorTrace } from '@/components/CursorTrace';
 import { LoveQuiz } from '@/components/LoveQuiz';
 import { ZodiacModal } from '@/components/ZodiacModal';
+import { LoadingScreen } from '@/components/LoadingScreen';
 
 const Scene = dynamic(() => import('@/components/Scene'), {
   ssr: false,
-  loading: () => <div className="fixed inset-0 bg-[#0f050a] flex items-center justify-center text-white">Loading Magic...</div>
+  loading: () => null // Handled by Global LoadingScreen
 });
 
 export default function Home() {
@@ -100,6 +101,9 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
+      {/* Global Loading State */}
+      <LoadingScreen />
+
       {/* Hidden YouTube Player */}
       <div id="youtube-player" className="absolute -left-[1000px] pointer-events-none opacity-0"></div>
 
