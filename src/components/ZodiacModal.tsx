@@ -31,8 +31,8 @@ export const ZodiacModal = ({ onClose }: ZodiacModalProps) => {
                             <Star className="w-8 h-8 text-primary fill-primary" />
                         </div>
                         <div>
-                            <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter uppercase">Zodiac Alignment</h2>
-                            <p className="text-accent text-sm font-bold tracking-[0.3em] uppercase opacity-70">Written in the Stars</p>
+                            <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter uppercase">Celestial Alignment</h2>
+                            <p className="text-accent text-sm font-bold tracking-[0.3em] uppercase opacity-70">A Destiny Orchestrated by the Heavens</p>
                         </div>
                     </div>
 
@@ -47,7 +47,7 @@ export const ZodiacModal = ({ onClose }: ZodiacModalProps) => {
                                 <h3 className="text-xl font-bold text-blue-300">Pisces</h3>
                             </div>
                             <p className="text-white/70 text-sm leading-relaxed italic">
-                                "The Dreamer. Sensitive, intuitive, and boundlessly creative. You bring the magic of the unseen worlds into our reality."
+                                "A soul made of stardust and dreams. Your empathy is the ocean I love to drown in, and your creativity is the magic that colors my world."
                             </p>
                             <div className="mt-4 flex gap-2">
                                 <span className="px-2 py-1 rounded-md bg-blue-400/10 text-[10px] text-blue-300 font-bold uppercase tracking-widest">Water Sign</span>
@@ -65,7 +65,7 @@ export const ZodiacModal = ({ onClose }: ZodiacModalProps) => {
                                 <h3 className="text-xl font-bold text-purple-300">Virgo</h3>
                             </div>
                             <p className="text-white/70 text-sm leading-relaxed italic">
-                                "The Healer. Meticulous, grounded, and deeply devoted. You provide the stable orbit for my chaotic heart to thrive in."
+                                "My anchor in the cosmic storm. Your devotion is the sanctuary where my heart finds rest, and your strength is the orbit that keeps me whole."
                             </p>
                             <div className="mt-4 flex gap-2">
                                 <span className="px-2 py-1 rounded-md bg-purple-400/10 text-[10px] text-purple-300 font-bold uppercase tracking-widest">Earth Sign</span>
@@ -77,7 +77,7 @@ export const ZodiacModal = ({ onClose }: ZodiacModalProps) => {
                     <div className="space-y-6 text-white/80 font-light leading-relaxed border-t border-white/10 pt-8">
                         <p className="text-center text-lg italic">
                             "They say when a Water sign meets an Earth sign, a beautiful garden grows.
-                            Our alignment is a cosmic rarity—a perfect balance of dreams and reality."
+                            Our alignment is a cosmic rarity—the perfect chemistry between dreams and reality, infinity and home."
                         </p>
 
                         <div className="flex justify-center gap-6 py-4">

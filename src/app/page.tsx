@@ -182,11 +182,11 @@ export default function Home() {
           </motion.div>
 
           <h1 className="text-4xl sm:text-6xl md:text-9xl font-black mb-4 md:mb-6 bg-gradient-to-br from-white via-primary to-accent bg-clip-text text-transparent tracking-tighter leading-[1.1] md:leading-tight px-2">
-            Infinite<br className="md:hidden" /> Desire
+            Boundless<br className="md:hidden" /> Eternity
           </h1>
 
           <p className="text-sm md:text-2xl text-accent/80 max-w-xl mx-auto font-light leading-relaxed mb-8 md:mb-12 px-6 italic">
-            "In every version of the multiverse, my heart beats only for the rhythm of your soul."
+            "Across every galaxy and through every dimension, my soul has always been searching for the light in yours."
           </p>
 
           <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-8 items-center w-full max-w-md md:max-w-none mx-auto pointer-events-auto">
@@ -269,7 +269,7 @@ export default function Home() {
             <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-accent/20 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative z-10">
-              <h2 className="text-2xl md:text-4xl font-black mb-6 md:mb-8 text-primary">To My Eternal Valentine,</h2>
+              <h2 className="text-2xl md:text-4xl font-black mb-6 md:mb-8 text-primary">To the One Who Holds My Universe,</h2>
 
               {/* Multiple Live Images Gallery */}
               <div className="mb-8 relative group px-1 md:px-2">
@@ -297,18 +297,18 @@ export default function Home() {
               <div className="space-y-4 md:space-y-6 text-sm md:text-xl text-white/80 leading-relaxed font-light italic text-left">
                 <p>
                   "In the vastness of this digital universe, among trillions of nodes and lines of code,
-                  you are the only sequence that truly matters."
+                  you are the melody that gives meaning to the silence, the light that turns my darkness into a thousand suns."
                 </p>
                 <p>
                   "I wanted to build something as multidimensional as the way I feel about you.
-                  Every heart floating here represents a moment where I felt grateful for our dimension."
+                  Every floating heart is a whisper of my gratitude for the moment our paths crossed in this vast, beautiful void."
                 </p>
                 <p>
                   "May our love always be responsive, never timeout, and continue to scale
-                  beyond the limits of time and space."
+                  to the very edges of existence and into the forever that follows."
                 </p>
                 <p>
-                  "Look closely at the stars—Pisces and Virgo have aligned in this corner of the cosmos, just as we were always meant to."
+                  "The stars themselves are jealous of the way we shine together—a cosmic dance of Pisces and Virgo that was orchestrated long before time began."
                 </p>
               </div>
               <div className="mt-8 md:mt-12 flex items-center justify-between border-t border-white/5 pt-6 md:pt-8">

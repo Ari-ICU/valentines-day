@@ -87,7 +87,7 @@ export function LoveQuiz({ onClose }: { onClose: () => void }) {
                         >
                             <Heart className="w-20 h-20 text-primary fill-primary animate-pulse mx-auto mb-6 filter drop-shadow-[0_0_15px_rgba(255,77,109,0.5)]" />
                             <h3 className="text-3xl md:text-5xl font-black text-white mb-12 leading-tight tracking-tight">
-                                Will you be my<br /><span className="text-primary bg-clip-text">Valentine?</span> 🌹
+                                Will you walk through the stars with me,<br /><span className="text-primary bg-clip-text">Forever?</span> 🌹
                             </h3>
 
                             <div className="flex flex-col md:flex-row gap-6 items-center justify-center relative w-full h-20">
@@ -125,12 +125,12 @@ export function LoveQuiz({ onClose }: { onClose: () => void }) {
                             </div>
                         </motion.div>
 
-                        <h2 className="text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter">
-                            YAYYY! 🎉
+                        <h2 className="text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter uppercase italic">
+                            Infinite Yes! 🎉
                         </h2>
 
                         <p className="text-xl md:text-2xl text-white/80 font-light italic mb-8">
-                            "You just made me the happiest person in the universe!"
+                            "In this moment, the entire cosmos feels like it was built just for us."
                         </p>
 
                         <button
