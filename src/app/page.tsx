@@ -43,14 +43,14 @@ export default function Home() {
       playerRef.current = new (window as any).YT.Player('youtube-player', {
         height: '0',
         width: '0',
-        videoId: '2Vv-BfVoq4g', // Ed Sheeran - Perfect
+        videoId: 'C6nQvDexL0s', // Kina Grannis - Can't Help Falling In Love
         playerVars: {
           autoplay: 0,
           controls: 0,
           showinfo: 0,
           rel: 0,
           loop: 1,
-          playlist: '2Vv-BfVoq4g'
+          playlist: 'C6nQvDexL0s'
         },
         events: {
           onReady: (event: any) => {
