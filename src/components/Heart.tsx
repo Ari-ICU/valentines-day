@@ -335,10 +335,10 @@ export function FloatingImage() {
     const [img1, img2, img3, img4, img5, img6] = useLoader(THREE.TextureLoader, [
         '/2026-02-10 14.19.29.jpg',
         '/2026-02-09 19.40.02.jpg',
-        '/2026-02-09 19.40.06.jpg',
+        '/2026-02-10 21.11.10.jpg',
         '/2026-02-09 19.40.09.jpg',
         '/2026-02-10 21.12.42.jpg',
-        '/2026-02-10 21.11.10.jpg'
+        '/2026-02-09 19.40.06.jpg'
     ]);
 
     // Spring-like physics for smooth movement
