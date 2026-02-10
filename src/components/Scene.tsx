@@ -1,0 +1,54 @@
+'use client';
+
+import React, { Suspense, useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Stars, Float, Environment, Sparkles } from '@react-three/drei';
+import { Heart, FloatingHearts, HeartTrail, ConfettiHearts, FallingPetals } from './Heart';
+import * as THREE from 'three';
+
+function Rig({ children }: { children: React.ReactNode }) {
+    const group = useRef<THREE.Group>(null!);
+    useFrame((state) => {
+        // Smoothly rotate the group based on mouse position
+        const targetRotationX = (state.pointer.y * Math.PI) / 10;
+        const targetRotationY = (state.pointer.x * Math.PI) / 10;
+
+        group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, targetRotationX, 0.05);
+        group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, targetRotationY, 0.05);
+    });
+    return <group ref={group}>{children}</group>;
+}
+
+export default function Scene({ burst = 0 }: { burst?: number }) {
+    return (
+        <div className="fixed inset-0 z-0">
+            <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
+                <color attach="background" args={['#0f050a']} />
+                <ambientLight intensity={0.5} />
+                <pointLight position={[10, 10, 10]} intensity={1} />
+                <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
+
+                <Suspense fallback={null}>
+                    <Rig>
+                        <Float speed={2} rotationIntensity={1} floatIntensity={1}>
+                            <Heart position={[0, -0.5, 0]} scale={0.8} />
+                        </Float>
+
+                        <FloatingHearts />
+
+                        <HeartTrail />
+
+                        <ConfettiHearts burst={burst} />
+
+                        <FallingPetals />
+
+                        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+                        <Sparkles count={100} scale={10} size={2} speed={0.5} color="#ffb3c1" />
+                    </Rig>
+
+                    <Environment preset="city" />
+                </Suspense>
+            </Canvas>
+        </div>
+    );
+}
