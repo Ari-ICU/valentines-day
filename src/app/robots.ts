@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: '/private/',
         },
-        sitemap: 'https://valentines-day.ari-icu.me/sitemap.xml',
+        sitemap: 'https://valentines-day-amber-five.vercel.app/sitemap.xml',
     }
 }

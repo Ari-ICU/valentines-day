@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Infinite Desire | A Cosmic Love Experience",
     description: "Explore a beautiful 3D cosmic journey of love and memories.",
-    url: "https://valentines-day.ari-icu.me", // Placeholder or update if known
+    url: "https://valentines-day-amber-five.vercel.app",
     siteName: "Infinite Desire",
     images: [
       {
@@ -48,6 +48,9 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
+  },
+  verification: {
+    google: "IJSxltx9C8nt0xJeqTw6ikwOTcB-rWhCO4esgEGimfA",
   },
 };
 
