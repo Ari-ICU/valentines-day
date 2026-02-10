@@ -59,10 +59,10 @@ export function LoadingScreen() {
                             className="text-center mb-12"
                         >
                             <h2 className="text-2xl md:text-3xl font-black text-white tracking-[0.2em] uppercase mb-4 h-8">
-                                {canEnter ? "Our Universe is Waiting" : "Awakening Our Cosmos"}
+                                {canEnter ? "The Melody is Ready" : "Compose Our Story"}
                             </h2>
                             <p className="text-accent/60 text-[10px] tracking-[0.4em] uppercase font-bold">
-                                {canEnter ? "Everything Is Perfectly In Place" : "Gathering the Stardust We're Made Of"}
+                                {canEnter ? "Our Universe awaits your touch" : progress < 50 ? "Gathering the stardust of us" : "Synchronizing our heartbeats with the rhythm"}
                             </p>
                         </motion.div>
 

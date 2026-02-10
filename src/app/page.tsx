@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import { Heart as HeartIcon, Sparkles, Music, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -100,7 +100,7 @@ export default function Home() {
   }, [isPlaying]);
 
   return (
-    <main className="relative min-h-screen overflow-hidden">
+    <main className="relative min-h-[100dvh] overflow-hidden">
       {/* Global Loading State */}
       <LoadingScreen />
 
@@ -143,20 +143,23 @@ export default function Home() {
         <span className="text-white font-bold tracking-tighter text-[10px] md:text-lg opacity-60 md:opacity-100">VALENTINE'26</span>
       </div>
 
-      {/* Countdown UI */}
-      <div className="absolute top-16 md:top-10 inset-x-0 z-20 flex justify-center px-4 pointer-events-none">
-        <div className="glass-card px-3 md:px-8 py-1.5 md:py-3 flex gap-2 md:gap-8 items-center border-white/5 bg-black/40 backdrop-blur-lg rounded-full shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-          {Object.entries(timeLeft).map(([label, value]) => (
-            <div key={label} className="flex flex-col items-center min-w-[35px] md:min-w-[60px]">
-              <span className="text-white font-black text-xs md:text-xl leading-none tabular-nums">{String(value).padStart(2, '0')}</span>
-              <span className="text-[6px] md:text-[10px] text-accent uppercase tracking-widest mt-0.5">{label.charAt(0)}</span>
-            </div>
+      {/* Countdown UI - Clean & Minimalist */}
+      <div className="absolute top-12 md:top-10 inset-x-0 z-20 flex justify-center px-4 pointer-events-none">
+        <div className="flex gap-4 md:gap-10 items-center">
+          {Object.entries(timeLeft).map(([label, value], i) => (
+            <React.Fragment key={label}>
+              <div className="flex flex-col items-center">
+                <span className="text-white font-black text-sm md:text-2xl tracking-tight tabular-nums">{String(value).padStart(2, '0')}</span>
+                <span className="text-[6px] md:text-[8px] text-accent/50 uppercase tracking-[0.3em] font-bold mt-1">{label.charAt(0)}</span>
+              </div>
+              {i < 3 && <div className="w-[1px] h-4 bg-white/10" />}
+            </React.Fragment>
           ))}
         </div>
       </div>
 
       {/* UI Overlay */}
-      <div className="relative z-20 flex flex-col items-center justify-center min-h-screen p-4 text-center mt-10 md:mt-0 pointer-events-none">
+      <div className="relative z-20 flex flex-col items-center justify-center min-h-[100dvh] p-4 text-center mt-12 md:mt-0 pointer-events-none">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -189,58 +192,35 @@ export default function Home() {
             "Across every galaxy and through every dimension, my soul has always been searching for the light in yours."
           </p>
 
-          <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-8 items-center w-full max-w-md md:max-w-none mx-auto pointer-events-auto">
+          <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-4 items-center w-full max-w-sm md:max-w-none mx-auto pointer-events-auto">
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => setBurst(Date.now())}
-              className="w-full md:w-auto group relative px-8 md:px-10 py-3.5 md:py-5 bg-primary text-white font-black rounded-full shadow-[0_0_30px_rgba(255,77,109,0.4)] hover:shadow-[0_0_60px_rgba(255,77,109,0.8)] transition-all duration-300 cursor-pointer overflow-hidden uppercase tracking-tighter text-sm md:text-base"
+              className="w-full md:w-auto px-10 py-4 bg-primary text-white font-black rounded-full shadow-[0_10px_30px_rgba(255,77,109,0.3)] transition-all duration-300 uppercase tracking-wider text-xs md:text-sm"
             >
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                Launch Love <Sparkles className="w-4 h-4 md:w-5 md:h-5 group-hover:rotate-12 transition-transform" />
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+              Launch Love
             </motion.button>
 
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setIsPlaying(!isPlaying)}
-              className={`w-full md:w-auto px-6 md:px-10 py-3 md:py-5 glass-card text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer text-sm md:text-base ${isPlaying ? 'border-primary shadow-[0_0_20px_rgba(255,77,109,0.2)]' : ''}`}
-            >
-              <Music className={`w-4 h-4 md:w-6 md:h-6 ${isPlaying ? 'animate-spin' : ''}`} />
-              {isPlaying ? "Our Song Playing..." : "Play Our Song"}
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setShowLetter(true)}
-              className="w-full md:w-auto px-6 md:px-10 py-3 md:py-5 glass-card text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer border-accent/20 text-sm md:text-base"
-            >
-              <Sparkles className="w-4 h-4 md:w-6 md:h-6 text-accent" />
-              Read My Letter
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setShowQuiz(true)}
-              className="w-full md:w-auto px-6 md:px-10 py-3 md:py-5 glass-card text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer border-accent/20 text-sm md:text-base border-t-2 border-l-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.1)]"
-            >
-              <HeartIcon className="w-4 h-4 md:w-6 md:h-6 text-accent fill-accent" />
-              Love Quiz
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setShowZodiac(true)}
-              className="w-full md:w-auto px-8 md:px-10 py-3.5 md:py-5 glass-card text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer border-blue-400/20 text-sm md:text-base border-t-2 border-l-2 border-white/20 shadow-[0_0_15px_rgba(30,58,138,0.2)] bg-blue-900/10"
-            >
-              <Sparkles className="w-4 h-4 md:w-6 md:h-6 text-blue-300" />
-              Zodiac Destiny
-            </motion.button>
+            <div className="flex flex-wrap justify-center gap-3">
+              {[
+                { icon: Music, text: isPlaying ? "Song Playing" : "Play Song", active: isPlaying, onClick: () => setIsPlaying(!isPlaying) },
+                { icon: Sparkles, text: "Letter", onClick: () => setShowLetter(true) },
+                { icon: HeartIcon, text: "Quiz", onClick: () => setShowQuiz(true) },
+                { icon: Sparkles, text: "Destiny", onClick: () => setShowZodiac(true) }
+              ].map((btn, i) => (
+                <motion.button
+                  key={i}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={btn.onClick}
+                  className={`px-6 py-4 glass-card text-white font-bold rounded-full border border-white/5 bg-white/5 backdrop-blur-md transition-all duration-300 flex items-center gap-2 text-[10px] md:text-xs uppercase tracking-[0.2em] ${btn.active ? 'border-primary/50 text-white' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                >
+                  <btn.icon className={`w-3 h-3 ${btn.active ? 'animate-spin text-primary' : ''}`} />
+                  {btn.text}
+                </motion.button>
+              ))}
+            </div>
           </div>
         </motion.div>
       </div>
@@ -333,16 +313,35 @@ export default function Home() {
       {/* Zodiac Modal */}
       {showZodiac && <ZodiacModal onClose={() => setShowZodiac(false)} />}
 
-      {/* Music Visualizer Placeholder Line */}
-      <div className="absolute bottom-16 md:bottom-20 inset-x-0 z-20 flex justify-center gap-1">
-        {isPlaying && Array.from({ length: 12 }).map((_, i) => (
-          <motion.div
-            key={i}
-            animate={{ height: [5, Math.random() * 20 + 10, 5] }}
-            transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.05 }}
-            className="w-1 bg-primary/40 rounded-full"
-          />
-        ))}
+      {/* Music Visualizer & Now Playing - Clean Overlay */}
+      <div className="absolute bottom-10 md:bottom-12 inset-x-0 z-20 flex flex-col items-center gap-3 pointer-events-none">
+        <AnimatePresence>
+          {isPlaying && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-5 py-2 rounded-full border border-white/10"
+            >
+              <div className="flex flex-col items-center">
+                <h3 className="text-white font-bold text-[10px] md:text-xs tracking-[0.2em] uppercase">
+                  Can't Help Falling In Love
+                </h3>
+              </div>
+              <div className="w-[1px] h-3 bg-white/20" />
+              <div className="flex gap-1 h-3 items-end mb-0.5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <motion.div
+                    key={i}
+                    animate={{ height: [2, Math.random() * 8 + 4, 2] }}
+                    transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.1 }}
+                    className="w-0.5 bg-primary/60 rounded-full"
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Floating Elements (Bottom) - Hidden on small mobile to prevent clutter */}
