@@ -337,8 +337,8 @@ export function FloatingImage() {
         '/2026-02-09 19.40.02.jpg',
         '/2026-02-09 19.40.06.jpg',
         '/2026-02-09 19.40.09.jpg',
-        '/2026-02-10 15.49.52.jpg',
-        '/2026-02-10 15.49.57.jpg'
+        '/2026-02-10 21.12.42.jpg',
+        '/2026-02-10 21.11.10.jpg'
     ]);
 
     // Spring-like physics for smooth movement
