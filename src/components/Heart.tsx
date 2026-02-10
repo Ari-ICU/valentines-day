@@ -30,14 +30,15 @@ export function Heart(props: any) {
         mesh.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.5) * 0.2 + (state.pointer.y * -0.2);
 
         // Position logic - subtle following
-        mesh.current.position.y = Math.sin(state.clock.elapsedTime * 2) * 0.1 - 0.5 + (state.pointer.y * 0.2);
-        mesh.current.position.x = state.pointer.x * 0.2;
+        const targetX = state.pointer.x * 0.2;
+        const targetY = Math.sin(state.clock.elapsedTime * 2) * 0.1 - 0.5 + (state.pointer.y * 0.2);
+
+        mesh.current.position.x = THREE.MathUtils.lerp(mesh.current.position.x, targetX, 0.05);
+        mesh.current.position.y = THREE.MathUtils.lerp(mesh.current.position.y, targetY, 0.05);
 
         // Hover effect scale
         const targetScale = hovered ? 0.75 : 0.6;
-        mesh.current.scale.x = THREE.MathUtils.lerp(mesh.current.scale.x, targetScale, 0.1);
-        mesh.current.scale.y = THREE.MathUtils.lerp(mesh.current.scale.y, targetScale, 0.1);
-        mesh.current.scale.z = THREE.MathUtils.lerp(mesh.current.scale.z, targetScale, 0.1);
+        mesh.current.scale.setScalar(THREE.MathUtils.lerp(mesh.current.scale.x, targetScale, 0.05));
     });
 
     return (
@@ -105,8 +106,7 @@ function IndividualHeart({ position, scale, speed, followFactor, randomOffset }:
         const targetZ = initialPos[2] + (state.pointer.y * 15 * followFactor) + noiseZ;
 
         // Smoothly interpolate to new position with variable lerp speed based on distance/randomness
-        // Increased base speed for more responsiveness (was 0.02)
-        const lerpSpeed = 0.08 + (followFactor * 0.05);
+        const lerpSpeed = 0.03 + (followFactor * 0.02);
 
         mesh.current.position.x = THREE.MathUtils.lerp(mesh.current.position.x, targetX, lerpSpeed);
         mesh.current.position.y = THREE.MathUtils.lerp(mesh.current.position.y, targetY, lerpSpeed);
@@ -180,7 +180,7 @@ function TrailInstance({ index, total }: { index: number; total: number }) {
 
     useFrame((state) => {
         // Staggered following logic
-        const factor = 0.15 / (index + 1);
+        const factor = 0.05 / (index + 1);
         const targetX = state.pointer.x * 6;
         const targetY = state.pointer.y * 3;
 
@@ -188,7 +188,7 @@ function TrailInstance({ index, total }: { index: number; total: number }) {
         mesh.current.position.y = THREE.MathUtils.lerp(mesh.current.position.y, targetY, factor);
         mesh.current.position.z = 3 - (index * 0.3);
 
-        mesh.current.rotation.y += 0.05 + index * 0.01;
+        mesh.current.rotation.y += 0.02 + index * 0.005;
         mesh.current.rotation.x = Math.PI; // Correct orientation
     });
 
@@ -366,8 +366,8 @@ export function FloatingImage() {
         }
 
         // Apply smooth interpolation
-        mesh.current.position.x = THREE.MathUtils.lerp(mesh.current.position.x, targetX, 0.1);
-        mesh.current.position.y = THREE.MathUtils.lerp(mesh.current.position.y, targetY, 0.1);
+        mesh.current.position.x = THREE.MathUtils.lerp(mesh.current.position.x, targetX, 0.05);
+        mesh.current.position.y = THREE.MathUtils.lerp(mesh.current.position.y, targetY, 0.05);
 
         // Continuous full 360 degree rotation
         mesh.current.rotation.y += dragging ? 0.05 : (hovered ? 0.02 : 0.01);
@@ -413,77 +413,153 @@ export function FloatingImage() {
     );
 }
 
-export function FloatingShapes() {
-    const count = 40; // Number of floating shapes
-    const shapes = Array.from({ length: count }, (_, i) => ({
-        type: Math.floor(Math.random() * 4), // 0: Torus, 1: Icosahedron, 2: Dodecahedron, 3: Sphere
-        position: [
-            (Math.random() - 0.5) * 20,
-            (Math.random() - 0.5) * 20,
-            (Math.random() - 0.5) * 10 - 5,
-        ] as [number, number, number],
-        scale: Math.random() * 0.3 + 0.1,
-        speed: Math.random() * 0.5 + 0.2,
-        rotationSpeed: [
-            Math.random() * 0.02,
-            Math.random() * 0.02,
-            Math.random() * 0.02
-        ] as [number, number, number],
-        color: ['#ffcdb2', '#ffb4a2', '#e5989b', '#b5838d', '#6d6875'][Math.floor(Math.random() * 5)]
-    }));
+// export function FloatingShapes() {
+//     const count = 40; // Number of floating shapes
+//     const shapes = Array.from({ length: count }, (_, i) => ({
+//         type: Math.floor(Math.random() * 4), // 0: Torus, 1: Icosahedron, 2: Dodecahedron, 3: Sphere
+//         position: [
+//             (Math.random() - 0.5) * 20,
+//             (Math.random() - 0.5) * 20,
+//             (Math.random() - 0.5) * 10 - 5,
+//         ] as [number, number, number],
+//         scale: Math.random() * 0.3 + 0.1,
+//         speed: Math.random() * 0.5 + 0.2,
+//         rotationSpeed: [
+//             Math.random() * 0.02,
+//             Math.random() * 0.02,
+//             Math.random() * 0.02
+//         ] as [number, number, number],
+//         color: ['#ffcdb2', '#ffb4a2', '#e5989b', '#b5838d', '#6d6875'][Math.floor(Math.random() * 5)]
+//     }));
 
-    return (
-        <>
-            {shapes.map((s, i) => (
-                <ShapeInstance key={i} {...s} />
-            ))}
-        </>
-    );
-}
+//     return (
+//         <>
+//             {shapes.map((s, i) => (
+//                 <ShapeInstance key={i} {...s} />
+//             ))}
+//         </>
+//     );
+// }
 
 import { MeshDistortMaterial } from '@react-three/drei';
 
-function ShapeInstance({ type, position, scale, speed, rotationSpeed, color }: any) {
-    const mesh = useRef<THREE.Mesh>(null!);
-    const initialPos = useRef(new THREE.Vector3(...position));
+// function ShapeInstance({ type, position, scale, speed, rotationSpeed, color }: any) {
+//     const mesh = useRef<THREE.Mesh>(null!);
+//     const initialPos = useRef(new THREE.Vector3(...position));
 
-    useFrame((state) => {
-        const time = state.clock.elapsedTime;
+//     useFrame((state) => {
+//         const time = state.clock.elapsedTime;
 
-        // Float animation + Cursor parallax
-        const targetX = initialPos.current.x + Math.cos(time * speed * 0.5) * 0.5 + (state.pointer.x * 5);
-        const targetY = initialPos.current.y + Math.sin(time * speed) * 1 + (state.pointer.y * 3);
+//         // Float animation + Cursor parallax
+//         const targetX = initialPos.current.x + Math.cos(time * speed * 0.5) * 0.5 + (state.pointer.x * 5);
+//         const targetY = initialPos.current.y + Math.sin(time * speed) * 1 + (state.pointer.y * 3);
 
-        mesh.current.position.x = THREE.MathUtils.lerp(mesh.current.position.x, targetX, 0.05);
-        mesh.current.position.y = THREE.MathUtils.lerp(mesh.current.position.y, targetY, 0.05);
+//         mesh.current.position.x = THREE.MathUtils.lerp(mesh.current.position.x, targetX, 0.05);
+//         mesh.current.position.y = THREE.MathUtils.lerp(mesh.current.position.y, targetY, 0.05);
 
-        // Rotate
-        mesh.current.rotation.x += rotationSpeed[0];
-        mesh.current.rotation.y += rotationSpeed[1];
-        mesh.current.rotation.z += rotationSpeed[2];
-    });
+//         // Rotate
+//         mesh.current.rotation.x += rotationSpeed[0];
+//         mesh.current.rotation.y += rotationSpeed[1];
+//         mesh.current.rotation.z += rotationSpeed[2];
+//     });
 
-    // Pick a geometry based on type
-    const geometries = [
-        <torusGeometry key="torus" args={[0.5, 0.2, 16, 32]} />,
-        <icosahedronGeometry key="ico" args={[0.7, 0]} />,
-        <dodecahedronGeometry key="dodeca" args={[0.6, 0]} />,
-        <sphereGeometry key="sphere" args={[0.5, 32, 32]} />,
+//     // Pick a geometry based on type
+//     const geometries = [
+//         <torusGeometry key="torus" args={[0.5, 0.2, 16, 32]} />,
+//         <icosahedronGeometry key="ico" args={[0.7, 0]} />,
+//         <dodecahedronGeometry key="dodeca" args={[0.6, 0]} />,
+//         <sphereGeometry key="sphere" args={[0.5, 32, 32]} />,
+//     ];
+
+//     return (
+//         <mesh ref={mesh} position={position} scale={scale}>
+//             {geometries[type]}
+//             <MeshDistortMaterial
+//                 color={color}
+//                 speed={speed * 2}
+//                 distort={0.4}
+//                 radius={1}
+//                 transparent
+//                 opacity={0.7}
+//                 metalness={0.8}
+//                 roughness={0.2}
+//             />
+//         </mesh>
+//     );
+// }
+
+export function PlanetarySystem() {
+    const planets = [
+        { name: 'Mercury', color: '#8c8c8c', size: 0.15, orbitRadius: 6, speed: 0.5 },
+        { name: 'Venus', color: '#e3bb76', size: 0.3, orbitRadius: 8, speed: 0.35 },
+        { name: 'Earth', color: '#2271b3', size: 0.32, orbitRadius: 10, speed: 0.3 },
+        { name: 'Mars', color: '#e27b58', size: 0.22, orbitRadius: 12, speed: 0.25 },
+        { name: 'Jupiter', color: '#d39c7e', size: 0.8, orbitRadius: 16, speed: 0.15 },
+        { name: 'Saturn', color: '#c5ab6e', size: 0.7, orbitRadius: 20, speed: 0.1, hasRings: true },
+        { name: 'Uranus', color: '#b5e1e2', size: 0.5, orbitRadius: 24, speed: 0.07 },
+        { name: 'Neptune', color: '#3f54ba', size: 0.48, orbitRadius: 28, speed: 0.05 },
     ];
 
     return (
-        <mesh ref={mesh} position={position} scale={scale}>
-            {geometries[type]}
-            <MeshDistortMaterial
-                color={color}
-                speed={speed * 2}
-                distort={0.4}
-                radius={1}
-                transparent
-                opacity={0.7}
-                metalness={0.8}
-                roughness={0.2}
-            />
-        </mesh>
+        <group>
+            {planets.map((p, i) => (
+                <PlanetInstance key={i} {...p} />
+            ))}
+        </group>
+    );
+}
+
+function PlanetInstance({ color, size, orbitRadius, speed, hasRings }: any) {
+    const mesh = useRef<THREE.Mesh>(null!);
+    const ringsMesh = useRef<THREE.Mesh>(null!);
+    const group = useRef<THREE.Group>(null!);
+
+    // Random start angle
+    const startAngle = useRef(Math.random() * Math.PI * 2);
+
+    useFrame((state) => {
+        const time = state.clock.elapsedTime * speed + startAngle.current;
+
+        // Orbital movement
+        group.current.position.x = Math.cos(time) * orbitRadius;
+        group.current.position.z = Math.sin(time) * orbitRadius;
+
+        // Rotation on its own axis
+        mesh.current.rotation.y += 0.01;
+
+        if (hasRings && ringsMesh.current) {
+            ringsMesh.current.rotation.z += 0.005;
+        }
+
+        // Subtle follow - very minor for planets to maintain orbit feel
+        const targetY = Math.sin(time * 0.5) * 2 + (state.pointer.y * 2);
+        group.current.position.y = THREE.MathUtils.lerp(group.current.position.y, targetY, 0.03);
+    });
+
+    return (
+        <group ref={group}>
+            <mesh ref={mesh}>
+                <sphereGeometry args={[size, 32, 32]} />
+                <meshStandardMaterial
+                    color={color}
+                    roughness={0.7}
+                    metalness={0.2}
+                    emissive={color}
+                    emissiveIntensity={0.2}
+                />
+            </mesh>
+
+            {hasRings && (
+                <mesh ref={ringsMesh} rotation={[Math.PI / 2.5, 0, 0]}>
+                    <ringGeometry args={[size * 1.5, size * 2.5, 64]} />
+                    <meshStandardMaterial
+                        color={color}
+                        transparent
+                        opacity={0.4}
+                        side={THREE.DoubleSide}
+                    />
+                </mesh>
+            )}
+        </group>
     );
 }
