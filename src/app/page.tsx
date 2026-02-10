@@ -256,7 +256,7 @@ export default function Home() {
                 <div className="absolute -inset-2 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-3xl blur-2xl opacity-50"></div>
 
                 <div className="relative flex gap-3 md:gap-5 overflow-x-auto pb-6 custom-scrollbar snap-x scroll-smooth">
-                  {['2026-02-09 19.40.02.jpg', '2026-02-09 19.40.06.jpg', '2026-02-09 19.40.09.jpg', '2026-02-10 14.19.29.jpg'].map((img, index) => (
+                  {['2026-02-09 19.40.02.jpg', '2026-02-09 19.40.06.jpg', '2026-02-09 19.40.09.jpg', '2026-02-10 14.19.29.jpg', "2026-02-10 21.10.59.jpg", "2026-02-10 21.11.10.jpg"].map((img, index) => (
                     <GalleryCard key={img} imageSrc={img} index={index} />
                   ))
                   }
