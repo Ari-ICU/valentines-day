@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
+import { MeshDistortMaterial } from '@react-three/drei';
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -413,80 +414,79 @@ export function FloatingImage() {
     );
 }
 
-// export function FloatingShapes() {
-//     const count = 40; // Number of floating shapes
-//     const shapes = Array.from({ length: count }, (_, i) => ({
-//         type: Math.floor(Math.random() * 4), // 0: Torus, 1: Icosahedron, 2: Dodecahedron, 3: Sphere
-//         position: [
-//             (Math.random() - 0.5) * 20,
-//             (Math.random() - 0.5) * 20,
-//             (Math.random() - 0.5) * 10 - 5,
-//         ] as [number, number, number],
-//         scale: Math.random() * 0.3 + 0.1,
-//         speed: Math.random() * 0.5 + 0.2,
-//         rotationSpeed: [
-//             Math.random() * 0.02,
-//             Math.random() * 0.02,
-//             Math.random() * 0.02
-//         ] as [number, number, number],
-//         color: ['#ffcdb2', '#ffb4a2', '#e5989b', '#b5838d', '#6d6875'][Math.floor(Math.random() * 5)]
-//     }));
+export function FloatingShapes() {
+    const count = 40; // Number of floating shapes
+    const shapes = Array.from({ length: count }, (_, i) => ({
+        type: Math.floor(Math.random() * 4), // 0: Torus, 1: Icosahedron, 2: Dodecahedron, 3: Sphere
+        position: [
+            (Math.random() - 0.5) * 20,
+            (Math.random() - 0.5) * 20,
+            (Math.random() - 0.5) * 10 - 5,
+        ] as [number, number, number],
+        scale: Math.random() * 0.3 + 0.1,
+        speed: Math.random() * 0.5 + 0.2,
+        rotationSpeed: [
+            Math.random() * 0.02,
+            Math.random() * 0.02,
+            Math.random() * 0.02
+        ] as [number, number, number],
+        color: ['#ffcdb2', '#ffb4a2', '#e5989b', '#b5838d', '#6d6875'][Math.floor(Math.random() * 5)]
+    }));
 
-//     return (
-//         <>
-//             {shapes.map((s, i) => (
-//                 <ShapeInstance key={i} {...s} />
-//             ))}
-//         </>
-//     );
-// }
+    return (
+        <>
+            {shapes.map((s, i) => (
+                <ShapeInstance key={i} {...s} />
+            ))}
+        </>
+    );
+}
 
-import { MeshDistortMaterial } from '@react-three/drei';
 
-// function ShapeInstance({ type, position, scale, speed, rotationSpeed, color }: any) {
-//     const mesh = useRef<THREE.Mesh>(null!);
-//     const initialPos = useRef(new THREE.Vector3(...position));
+function ShapeInstance({ type, position, scale, speed, rotationSpeed, color }: any) {
+    const mesh = useRef<THREE.Mesh>(null!);
+    const initialPos = useRef(new THREE.Vector3(...position));
 
-//     useFrame((state) => {
-//         const time = state.clock.elapsedTime;
+    useFrame((state) => {
+        const time = state.clock.elapsedTime;
 
-//         // Float animation + Cursor parallax
-//         const targetX = initialPos.current.x + Math.cos(time * speed * 0.5) * 0.5 + (state.pointer.x * 5);
-//         const targetY = initialPos.current.y + Math.sin(time * speed) * 1 + (state.pointer.y * 3);
+        // Float animation + Cursor parallax
+        const targetX = initialPos.current.x + Math.cos(time * speed * 0.5) * 0.5 + (state.pointer.x * 5);
+        const targetY = initialPos.current.y + Math.sin(time * speed) * 1 + (state.pointer.y * 3);
 
-//         mesh.current.position.x = THREE.MathUtils.lerp(mesh.current.position.x, targetX, 0.05);
-//         mesh.current.position.y = THREE.MathUtils.lerp(mesh.current.position.y, targetY, 0.05);
+        mesh.current.position.x = THREE.MathUtils.lerp(mesh.current.position.x, targetX, 0.05);
+        mesh.current.position.y = THREE.MathUtils.lerp(mesh.current.position.y, targetY, 0.05);
 
-//         // Rotate
-//         mesh.current.rotation.x += rotationSpeed[0];
-//         mesh.current.rotation.y += rotationSpeed[1];
-//         mesh.current.rotation.z += rotationSpeed[2];
-//     });
+        // Rotate
+        mesh.current.rotation.x += rotationSpeed[0];
+        mesh.current.rotation.y += rotationSpeed[1];
+        mesh.current.rotation.z += rotationSpeed[2];
+    });
 
-//     // Pick a geometry based on type
-//     const geometries = [
-//         <torusGeometry key="torus" args={[0.5, 0.2, 16, 32]} />,
-//         <icosahedronGeometry key="ico" args={[0.7, 0]} />,
-//         <dodecahedronGeometry key="dodeca" args={[0.6, 0]} />,
-//         <sphereGeometry key="sphere" args={[0.5, 32, 32]} />,
-//     ];
+    // Pick a geometry based on type
+    const geometries = [
+        <torusGeometry key="torus" args={[0.5, 0.2, 16, 32]} />,
+        <icosahedronGeometry key="ico" args={[0.7, 0]} />,
+        <dodecahedronGeometry key="dodeca" args={[0.6, 0]} />,
+        <sphereGeometry key="sphere" args={[0.5, 32, 32]} />,
+    ];
 
-//     return (
-//         <mesh ref={mesh} position={position} scale={scale}>
-//             {geometries[type]}
-//             <MeshDistortMaterial
-//                 color={color}
-//                 speed={speed * 2}
-//                 distort={0.4}
-//                 radius={1}
-//                 transparent
-//                 opacity={0.7}
-//                 metalness={0.8}
-//                 roughness={0.2}
-//             />
-//         </mesh>
-//     );
-// }
+    return (
+        <mesh ref={mesh} position={position} scale={scale}>
+            {geometries[type]}
+            <MeshDistortMaterial
+                color={color}
+                speed={speed * 2}
+                distort={0.4}
+                radius={1}
+                transparent
+                opacity={0.7}
+                metalness={0.8}
+                roughness={0.2}
+            />
+        </mesh>
+    );
+}
 
 export function PlanetarySystem() {
     const planets = [
