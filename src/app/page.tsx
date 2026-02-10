@@ -132,13 +132,13 @@ export default function Home() {
       <Scene burst={burst} />
 
       {/* Top Left: Logo/Header */}
-      <div className="absolute top-6 left-6 md:top-10 md:left-10 z-20 flex items-center gap-2">
+      <div className="absolute top-6 left-6 md:top-10 md:left-10 z-20 flex items-center gap-2 pointer-events-none">
         <HeartIcon className="text-primary w-5 h-5 md:w-6 md:h-6" />
         <span className="text-white font-bold tracking-tighter text-sm md:text-lg">VALENTINE'26</span>
       </div>
 
       {/* Countdown UI */}
-      <div className="absolute top-16 md:top-10 inset-x-0 z-20 flex justify-center px-4">
+      <div className="absolute top-16 md:top-10 inset-x-0 z-20 flex justify-center px-4 pointer-events-none">
         <div className="glass-card px-3 md:px-8 py-2 md:py-3 flex gap-3 md:gap-8 items-center border-white/5 bg-black/20 backdrop-blur-md rounded-full">
           {Object.entries(timeLeft).map(([label, value]) => (
             <div key={label} className="flex flex-col items-center">
@@ -150,11 +150,12 @@ export default function Home() {
       </div>
 
       {/* UI Overlay */}
-      <div className="relative z-20 flex flex-col items-center justify-center min-h-screen p-4 text-center mt-10 md:mt-0">
+      <div className="relative z-20 flex flex-col items-center justify-center min-h-screen p-4 text-center mt-10 md:mt-0 pointer-events-none">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
+          className="pointer-events-none"
         >
           <motion.div
             animate={{
@@ -182,7 +183,7 @@ export default function Home() {
             "In every version of the multiverse, my heart beats only for the rhythm of your soul."
           </p>
 
-          <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-8 items-center w-full max-w-md md:max-w-none mx-auto">
+          <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-8 items-center w-full max-w-md md:max-w-none mx-auto pointer-events-auto">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

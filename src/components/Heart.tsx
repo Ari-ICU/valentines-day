@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useLoader, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
 export function Heart(props: any) {
@@ -319,6 +319,171 @@ function PetalInstance({ position, rotation, scale, speed }: any) {
         <mesh ref={mesh} scale={scale} rotation={rotation}>
             <shapeGeometry args={[petalShape]} />
             <meshStandardMaterial color="#ff4d6d" side={THREE.DoubleSide} transparent opacity={0.6} />
+        </mesh>
+    );
+}
+
+export function FloatingImage() {
+    const { viewport } = useThree();
+    const isMobile = viewport.width < 7;
+    const mesh = useRef<THREE.Mesh>(null!);
+    const [dragging, setDragging] = useState(false);
+    const [hovered, setHover] = useState(false);
+
+    // Load textures - updated to 6 images
+    const [img1, img2, img3, img4, img5, img6] = useLoader(THREE.TextureLoader, [
+        '/2026-02-10 14.19.29.jpg',
+        '/2026-02-09 19.40.02.jpg',
+        '/2026-02-09 19.40.06.jpg',
+        '/2026-02-09 19.40.09.jpg',
+        '/2026-02-10 15.49.52.jpg',
+        '/2026-02-10 15.49.57.jpg'
+    ]);
+
+    // Spring-like physics for smooth movement
+    const position = useRef(isMobile ? new THREE.Vector3(0, 2, 0) : new THREE.Vector3(3.5, 0, 0));
+
+    useFrame((state) => {
+        const time = state.clock.elapsedTime;
+
+        // Target position calculation
+        let targetX = position.current.x;
+        let targetY = position.current.y;
+
+        if (dragging) {
+            targetX = (state.pointer.x * viewport.width) / 2;
+            targetY = (state.pointer.y * viewport.height) / 2;
+
+            position.current.x = THREE.MathUtils.lerp(position.current.x, targetX, 0.2);
+            position.current.y = THREE.MathUtils.lerp(position.current.y, targetY, 0.2);
+        } else {
+            // Subtle parallax following when NOT dragging
+            const parallaxX = state.pointer.x * 3; // Increased from 2
+            const parallaxY = state.pointer.y * 2; // Increased from 1.5
+
+            targetX = position.current.x + parallaxX;
+            targetY = position.current.y + parallaxY + Math.sin(time * 0.5) * 0.2;
+        }
+
+        // Apply smooth interpolation
+        mesh.current.position.x = THREE.MathUtils.lerp(mesh.current.position.x, targetX, 0.1);
+        mesh.current.position.y = THREE.MathUtils.lerp(mesh.current.position.y, targetY, 0.1);
+
+        // Continuous full 360 degree rotation
+        mesh.current.rotation.y += dragging ? 0.05 : (hovered ? 0.02 : 0.01);
+        mesh.current.rotation.x = Math.sin(time * 0.5) * 0.2 + (dragging ? (state.pointer.y * 0.5) : 0);
+        mesh.current.rotation.z = Math.cos(time * 0.3) * 0.1 + (hovered ? Math.sin(time) * 0.05 : 0);
+
+        // Hover scale effect
+        const targetScale = (isMobile ? 0.5 : 0.8) * (hovered ? 1.1 : 1.0);
+        mesh.current.scale.setScalar(THREE.MathUtils.lerp(mesh.current.scale.x, targetScale, 0.1));
+    });
+
+    const scale = isMobile ? 0.5 : 0.8;
+
+    return (
+        <mesh
+            ref={mesh}
+            scale={scale}
+            onPointerOver={() => (document.body.style.cursor = 'grab')}
+            onPointerOut={() => (document.body.style.cursor = 'auto')}
+            onPointerDown={(e) => {
+                e.stopPropagation();
+                // @ts-ignore
+                e.target.setPointerCapture(e.pointerId);
+                setDragging(true);
+                document.body.style.cursor = 'grabbing';
+            }}
+            onPointerUp={(e) => {
+                e.stopPropagation();
+                // @ts-ignore
+                e.target.releasePointerCapture(e.pointerId);
+                setDragging(false);
+                document.body.style.cursor = 'grab';
+            }}
+        >
+            <boxGeometry args={[3, 4, 3]} />
+            <meshStandardMaterial attach="material-0" map={img2} />
+            <meshStandardMaterial attach="material-1" map={img4} />
+            <meshStandardMaterial attach="material-2" map={img5} />
+            <meshStandardMaterial attach="material-3" map={img6} />
+            <meshStandardMaterial attach="material-4" map={img1} />
+            <meshStandardMaterial attach="material-5" map={img3} />
+        </mesh>
+    );
+}
+
+export function FloatingShapes() {
+    const count = 40; // Number of floating shapes
+    const shapes = Array.from({ length: count }, (_, i) => ({
+        type: Math.floor(Math.random() * 4), // 0: Torus, 1: Icosahedron, 2: Dodecahedron, 3: Sphere
+        position: [
+            (Math.random() - 0.5) * 20,
+            (Math.random() - 0.5) * 20,
+            (Math.random() - 0.5) * 10 - 5,
+        ] as [number, number, number],
+        scale: Math.random() * 0.3 + 0.1,
+        speed: Math.random() * 0.5 + 0.2,
+        rotationSpeed: [
+            Math.random() * 0.02,
+            Math.random() * 0.02,
+            Math.random() * 0.02
+        ] as [number, number, number],
+        color: ['#ffcdb2', '#ffb4a2', '#e5989b', '#b5838d', '#6d6875'][Math.floor(Math.random() * 5)]
+    }));
+
+    return (
+        <>
+            {shapes.map((s, i) => (
+                <ShapeInstance key={i} {...s} />
+            ))}
+        </>
+    );
+}
+
+import { MeshDistortMaterial } from '@react-three/drei';
+
+function ShapeInstance({ type, position, scale, speed, rotationSpeed, color }: any) {
+    const mesh = useRef<THREE.Mesh>(null!);
+    const initialPos = useRef(new THREE.Vector3(...position));
+
+    useFrame((state) => {
+        const time = state.clock.elapsedTime;
+
+        // Float animation + Cursor parallax
+        const targetX = initialPos.current.x + Math.cos(time * speed * 0.5) * 0.5 + (state.pointer.x * 5);
+        const targetY = initialPos.current.y + Math.sin(time * speed) * 1 + (state.pointer.y * 3);
+
+        mesh.current.position.x = THREE.MathUtils.lerp(mesh.current.position.x, targetX, 0.05);
+        mesh.current.position.y = THREE.MathUtils.lerp(mesh.current.position.y, targetY, 0.05);
+
+        // Rotate
+        mesh.current.rotation.x += rotationSpeed[0];
+        mesh.current.rotation.y += rotationSpeed[1];
+        mesh.current.rotation.z += rotationSpeed[2];
+    });
+
+    // Pick a geometry based on type
+    const geometries = [
+        <torusGeometry key="torus" args={[0.5, 0.2, 16, 32]} />,
+        <icosahedronGeometry key="ico" args={[0.7, 0]} />,
+        <dodecahedronGeometry key="dodeca" args={[0.6, 0]} />,
+        <sphereGeometry key="sphere" args={[0.5, 32, 32]} />,
+    ];
+
+    return (
+        <mesh ref={mesh} position={position} scale={scale}>
+            {geometries[type]}
+            <MeshDistortMaterial
+                color={color}
+                speed={speed * 2}
+                distort={0.4}
+                radius={1}
+                transparent
+                opacity={0.7}
+                metalness={0.8}
+                roughness={0.2}
+            />
         </mesh>
     );
 }

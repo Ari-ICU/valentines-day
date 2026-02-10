@@ -3,15 +3,15 @@
 import React, { Suspense, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Stars, Float, Environment, Sparkles } from '@react-three/drei';
-import { Heart, FloatingHearts, HeartTrail, ConfettiHearts, FallingPetals } from './Heart';
+import { Heart, FloatingHearts, HeartTrail, ConfettiHearts, FallingPetals, FloatingImage, FloatingShapes } from './Heart';
 import * as THREE from 'three';
 
 function Rig({ children }: { children: React.ReactNode }) {
     const group = useRef<THREE.Group>(null!);
     useFrame((state) => {
-        // Smoothly rotate the group based on mouse position
-        const targetRotationX = (state.pointer.y * Math.PI) / 10;
-        const targetRotationY = (state.pointer.x * Math.PI) / 10;
+        // Smoothly rotate the group based on mouse position - 360 degree rotation
+        const targetRotationX = (state.pointer.y * Math.PI) / 2; // Allow looking up/down 90 degrees
+        const targetRotationY = state.pointer.x * Math.PI * 2; // Full 360 rotation
 
         group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, targetRotationX, 0.05);
         group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, targetRotationY, 0.05);
@@ -41,6 +41,9 @@ export default function Scene({ burst = 0 }: { burst?: number }) {
                         <ConfettiHearts burst={burst} />
 
                         <FallingPetals />
+
+                        <FloatingImage />
+                        <FloatingShapes />
 
                         <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
                         <Sparkles count={100} scale={10} size={2} speed={0.5} color="#ffb3c1" />
