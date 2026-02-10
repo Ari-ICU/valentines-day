@@ -194,18 +194,6 @@ export default function Home() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setBurst(Date.now())}
-              className="w-full md:w-auto group relative px-6 md:px-10 py-3 md:py-5 bg-gradient-to-r from-red-600 to-rose-500 text-white font-black rounded-full shadow-[0_0_30px_rgba(225,29,72,0.4)] hover:shadow-[0_0_60px_rgba(225,29,72,0.8)] transition-all duration-300 cursor-pointer overflow-hidden uppercase tracking-tighter text-sm md:text-base border border-white/20"
-            >
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                Send Roses <HeartIcon className="w-4 h-4 md:w-5 md:h-5 fill-white" />
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setBurst(Date.now())}
               className="w-full md:w-auto group relative px-6 md:px-10 py-3 md:py-5 bg-primary text-white font-black rounded-full shadow-[0_0_30px_rgba(255,77,109,0.4)] hover:shadow-[0_0_60px_rgba(255,77,109,0.8)] transition-all duration-300 cursor-pointer overflow-hidden uppercase tracking-tighter text-sm md:text-base"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
