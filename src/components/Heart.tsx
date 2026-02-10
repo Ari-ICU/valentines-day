@@ -563,3 +563,117 @@ function PlanetInstance({ color, size, orbitRadius, speed, hasRings }: any) {
         </group>
     );
 }
+
+export function ZodiacSigns() {
+    const count = 40; // Increase count for "alot of"
+    const signs = Array.from({ length: count }, (_, i) => ({
+        name: i % 2 === 0 ? 'Pisces' : 'Virgo',
+        position: [
+            (Math.random() - 0.5) * 40,
+            (Math.random() - 0.5) * 40,
+            (Math.random() - 0.5) * 20 - 10,
+        ] as [number, number, number],
+        color: i % 2 === 0 ? '#7fb3d5' : '#aed6f1',
+        scale: Math.random() * 0.3 + 0.2, // Much smaller size
+        speed: Math.random() * 0.5 + 0.2,
+        randomOffset: Math.random() * 100,
+    }));
+
+    return (
+        <group>
+            {signs.map((s, i) => (
+                <ZodiacSign key={i} {...s} />
+            ))}
+        </group>
+    );
+}
+
+function ZodiacSign({ name, position, color, scale, speed, randomOffset }: any) {
+    const mesh = useRef<THREE.Group>(null!);
+
+    useFrame((state) => {
+        const time = state.clock.elapsedTime * speed + randomOffset;
+        mesh.current.rotation.y = Math.sin(time * 0.5) * 0.5;
+        mesh.current.rotation.x = Math.cos(time * 0.3) * 0.5;
+
+        // Floating motion
+        mesh.current.position.y = position[1] + Math.sin(time * 0.8) * 1;
+        mesh.current.position.x = position[0] + Math.cos(time * 0.5) * 0.5;
+    });
+
+    const getGlyphGeometry = () => {
+        if (name === 'Pisces') {
+            const curves = [];
+            const leftPath = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(-0.4, 0.6, 0),
+                new THREE.Vector3(-0.6, 0, 0),
+                new THREE.Vector3(-0.4, -0.6, 0)
+            ]);
+            curves.push(leftPath);
+            const rightPath = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(0.4, 0.6, 0),
+                new THREE.Vector3(0.6, 0, 0),
+                new THREE.Vector3(0.4, -0.6, 0)
+            ]);
+            curves.push(rightPath);
+            const barPath = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(-0.7, 0, 0),
+                new THREE.Vector3(0.7, 0, 0)
+            ]);
+            curves.push(barPath);
+            return curves;
+        } else {
+            const curves = [];
+            const part1 = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(-0.6, -0.6, 0),
+                new THREE.Vector3(-0.6, 0.4, 0),
+                new THREE.Vector3(-0.4, 0.6, 0),
+                new THREE.Vector3(-0.2, 0.4, 0),
+                new THREE.Vector3(-0.2, -0.6, 0)
+            ]);
+            curves.push(part1);
+            const part2 = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(-0.2, 0.4, 0),
+                new THREE.Vector3(0, 0.6, 0),
+                new THREE.Vector3(0.2, 0.4, 0),
+                new THREE.Vector3(0.2, -0.6, 0)
+            ]);
+            curves.push(part2);
+            const part3 = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(0.2, 0.4, 0),
+                new THREE.Vector3(0.4, 0.6, 0),
+                new THREE.Vector3(0.6, 0.4, 0),
+                new THREE.Vector3(0.6, -0.4, 0),
+                new THREE.Vector3(0.4, -0.7, 0),
+                new THREE.Vector3(0.8, -0.9, 0)
+            ]);
+            curves.push(part3);
+            return curves;
+        }
+    };
+
+    const curves = getGlyphGeometry();
+
+    return (
+        <group ref={mesh} position={position} scale={scale}>
+            {curves.map((curve, idx) => (
+                <mesh key={idx}>
+                    <tubeGeometry args={[curve, 20, 0.08, 8, false]} />
+                    <meshStandardMaterial
+                        color={color}
+                        emissive={color}
+                        emissiveIntensity={3}
+                        toneMapped={false}
+                        transparent
+                        opacity={0.8}
+                    />
+                </mesh>
+            ))}
+            {/* Minimal star for each glyph */}
+            <mesh position={[0, 0, -0.1]}>
+                <sphereGeometry args={[0.05, 8, 8]} />
+                <meshStandardMaterial color={color} emissive={color} emissiveIntensity={2} />
+            </mesh>
+        </group>
+    );
+}

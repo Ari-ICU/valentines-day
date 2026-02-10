@@ -291,6 +291,9 @@ export default function Home() {
                   "May our love always be responsive, never timeout, and continue to scale
                   beyond the limits of time and space."
                 </p>
+                <p>
+                  "Look closely at the stars—Pisces and Virgo have aligned in this corner of the cosmos, just as we were always meant to."
+                </p>
               </div>
               <div className="mt-8 md:mt-12 flex items-center justify-between border-t border-white/5 pt-6 md:pt-8">
                 <div>

@@ -3,7 +3,7 @@
 import React, { Suspense, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Stars, Float, Environment, Sparkles } from '@react-three/drei';
-import { Heart, FloatingHearts, HeartTrail, ConfettiHearts, FallingPetals, FloatingImage, PlanetarySystem } from './Heart';
+import { Heart, FloatingHearts, HeartTrail, ConfettiHearts, FallingPetals, FloatingImage, PlanetarySystem, ZodiacSigns } from './Heart';
 import * as THREE from 'three';
 
 function Rig({ children }: { children: React.ReactNode }) {
@@ -49,6 +49,7 @@ export default function Scene({ burst = 0 }: { burst?: number }) {
                         <FloatingImage />
                         {/* <FloatingShapes /> */}
                         <PlanetarySystem />
+                        <ZodiacSigns />
 
                         <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
                         <Sparkles count={100} scale={10} size={2} speed={0.5} color="#ffb3c1" />
